@@ -52,6 +52,10 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # Enables Pages (GitHub Actions source) on first deployment using
+          # the workflow's `pages: write` permission.
+          enablement: true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
