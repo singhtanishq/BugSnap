@@ -9,6 +9,7 @@ import { Link } from "@/app/router";
 import { useReport } from "@/app/providers/ReportProvider";
 import { useToast } from "@/components/feedback/Toast";
 import { ErrorBoundary } from "@/components/feedback/ErrorBoundary";
+import { AnnotationStudio } from "@/features/annotation/AnnotationStudio";
 import { checkImageFile } from "@/lib/files/fileValidation";
 import { decodeImage } from "@/lib/images/decodeImage";
 import { getEvidenceUrl, hasEvidenceBlob } from "@/lib/files/evidenceStore";
@@ -31,10 +32,12 @@ function EvidenceCard({
   evidenceId,
   index,
   count,
+  onAnnotate,
 }: {
   evidenceId: string;
   index: number;
   count: number;
+  onAnnotate: (id: string) => void;
 }) {
   const { report, dispatch } = useReport();
   const { showToast } = useToast();
@@ -122,6 +125,13 @@ function EvidenceCard({
             </Button>
             <Button
               size="sm"
+              onClick={() => onAnnotate(item.id)}
+              aria-label={`Annotate ${item.name}`}
+            >
+              Annotate
+            </Button>
+            <Button
+              size="sm"
               variant="danger"
               aria-label={`Remove ${item.name}`}
               onClick={() => {
@@ -166,6 +176,7 @@ function EvidencePageInner() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = useState(false);
   const [capturing, setCapturing] = useState(false);
+  const [annotatingId, setAnnotatingId] = useState<string | null>(null);
 
   const captureSupported = isScreenCaptureSupported();
 
@@ -381,6 +392,7 @@ function EvidencePageInner() {
                 evidenceId={item.id}
                 index={index}
                 count={report.evidence.length}
+                onAnnotate={setAnnotatingId}
               />
             ))}
           </ol>
@@ -395,6 +407,13 @@ function EvidencePageInner() {
           <Button variant="primary">Next: Environment →</Button>
         </Link>
       </div>
+
+      {annotatingId ? (
+        <AnnotationStudio
+          evidenceId={annotatingId}
+          onClose={() => setAnnotatingId(null)}
+        />
+      ) : null}
     </div>
   );
 }

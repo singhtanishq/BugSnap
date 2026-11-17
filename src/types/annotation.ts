@@ -15,7 +15,9 @@ export type AnnotationTool =
   | "pen"
   | "text"
   | "marker"
-  | "redaction";
+  | "redaction"
+  /** Editor-only UI mode, never stored on an annotation. */
+  | "pan";
 
 interface AnnotationBase {
   id: string;
@@ -77,7 +79,10 @@ export type Annotation =
   | TextAnnotation
   | MarkerAnnotation;
 
-export const ANNOTATION_TOOL_LABELS: Record<Exclude<AnnotationTool, "select">, string> = {
+export const ANNOTATION_TOOL_LABELS: Record<
+  Exclude<AnnotationTool, "select" | "pan">,
+  string
+> = {
   arrow: "Pointer arrow",
   rect: "Rectangle outline",
   ellipse: "Ellipse outline",
