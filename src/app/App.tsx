@@ -8,6 +8,7 @@ import { ReportBuilderPage } from "@/features/report-builder/ReportBuilderPage";
 import { StepsPage } from "@/features/reproduction-steps/StepsPage";
 import { EvidencePage } from "@/features/evidence/EvidencePage";
 import { EnvironmentPage } from "@/features/environment/EnvironmentPage";
+import { DiagnosticsPage } from "@/features/diagnostics/DiagnosticsPage";
 import { ErrorBoundary } from "@/components/feedback/ErrorBoundary";
 import { Button } from "@/components/ui/Button";
 
@@ -21,6 +22,7 @@ const ROUTES: Array<{ path: string; element: ReactNode }> = [
   { path: "/steps", element: <StepsPage /> },
   { path: "/evidence", element: <EvidencePage /> },
   { path: "/environment", element: <EnvironmentPage /> },
+  { path: "/diagnostics", element: <DiagnosticsPage /> },
 ];
 
 function AppRoutes() {
