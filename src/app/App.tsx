@@ -4,6 +4,8 @@ import { ToastProvider } from "@/components/feedback/Toast";
 import { ReportProvider } from "@/app/providers/ReportProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { OverviewPage } from "@/features/overview/OverviewPage";
+import { ReportBuilderPage } from "@/features/report-builder/ReportBuilderPage";
+import { StepsPage } from "@/features/reproduction-steps/StepsPage";
 import { ErrorBoundary } from "@/components/feedback/ErrorBoundary";
 import { Button } from "@/components/ui/Button";
 
@@ -13,6 +15,8 @@ import { Button } from "@/components/ui/Button";
  */
 const ROUTES: Array<{ path: string; element: ReactNode }> = [
   { path: "/", element: <OverviewPage /> },
+  { path: "/report", element: <ReportBuilderPage /> },
+  { path: "/steps", element: <StepsPage /> },
 ];
 
 function AppRoutes() {
