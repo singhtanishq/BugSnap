@@ -65,7 +65,7 @@ function HelpPageInner() {
 
       <Card className="mb-5">
         <CardHeader title="Supported formats" description="All processing happens in your browser." />
-        <CardBody className="overflow-x-auto">
+        <CardBody className="overflow-x-auto" tabIndex={0} aria-label="Data table, scrollable horizontally">
           <table className="w-full text-left text-xs">
             <thead className="text-ink-500">
               <tr>

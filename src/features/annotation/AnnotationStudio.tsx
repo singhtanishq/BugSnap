@@ -655,7 +655,7 @@ function StudioInner({ evidenceId, onClose }: { evidenceId: string; onClose: () 
               className={cn(
                 "rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors",
                 effectiveTool === tool.tool
-                  ? "bg-accent-600 text-white"
+                  ? "bg-accent-700 text-white"
                   : "bg-ink-800 text-ink-200 hover:bg-ink-700",
                 tool.tool === "redaction" && effectiveTool !== tool.tool
                   ? "ring-1 ring-red-400/60"
@@ -693,7 +693,7 @@ function StudioInner({ evidenceId, onClose }: { evidenceId: string; onClose: () 
           <Button size="sm" variant="primary" onClick={exportPng} disabled={!blob}>
             Save PNG
           </Button>
-          <Button size="sm" onClick={onClose} aria-label="Close annotation studio">
+          <Button size="sm" onClick={onClose} aria-label="Done — close annotation studio">
             Done
           </Button>
         </div>
@@ -824,7 +824,7 @@ function StudioInner({ evidenceId, onClose }: { evidenceId: string; onClose: () 
                   aria-label={`${w} pixels`}
                   className={cn(
                     "rounded-md px-2.5 py-1 text-xs font-medium",
-                    strokeWidth === w ? "bg-accent-600 text-white" : "bg-ink-800 text-ink-200 hover:bg-ink-700",
+                    strokeWidth === w ? "bg-accent-700 text-white" : "bg-ink-800 text-ink-200 hover:bg-ink-700",
                   )}
                   onClick={() => setStrokeWidth(w)}
                 >
@@ -845,7 +845,7 @@ function StudioInner({ evidenceId, onClose }: { evidenceId: string; onClose: () 
             <p>⌘/Ctrl+Z undo · ⇧+⌘/Ctrl+Z redo · Del delete</p>
             <p>Space pan · +/− zoom · 0 fit · Esc deselect/close</p>
           </div>
-          <p className="text-[11px] leading-relaxed text-ink-400">
+          <p className="text-[11px] leading-relaxed text-ink-300">
             Source pixels stay untouched in memory. The export flattens the original image
             with these annotations into a fresh PNG.
           </p>

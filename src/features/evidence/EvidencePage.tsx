@@ -383,7 +383,7 @@ function EvidencePageInner() {
             <h2 className="text-sm font-semibold text-ink-900">
               Evidence ({report.evidence.length})
             </h2>
-            <p className="text-xs text-ink-400">Export order: top to bottom</p>
+            <p className="text-xs text-ink-500">Export order: top to bottom</p>
           </div>
           <ol className="grid gap-3" aria-label="Evidence images in export order">
             {report.evidence.map((item, index) => (

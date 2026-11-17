@@ -436,7 +436,7 @@ function ReviewPageInner() {
               </h4>
               {report.consoleLog.includedInExport ? (
                 <>
-                  <pre className="mt-1 max-h-40 overflow-auto rounded-lg border border-ink-200 bg-ink-50 px-3 py-2 font-mono text-[11px] whitespace-pre-wrap">
+                  <pre tabIndex={0} aria-label="Sanitized console preview, scrollable" className="mt-1 max-h-40 overflow-auto rounded-lg border border-ink-200 bg-ink-50 px-3 py-2 font-mono text-[11px] whitespace-pre-wrap">
                     {consoleSanitized?.sanitized}
                   </pre>
                   <p className="mt-1 text-[11px] text-ink-500">

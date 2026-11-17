@@ -309,6 +309,7 @@ function ConsoleSection() {
 
             <textarea
               ref={consoleAreaRef}
+              tabIndex={0}
               className="h-64 w-full overflow-auto rounded-lg border border-ink-200 bg-white px-3 py-2 font-mono text-xs leading-relaxed"
               aria-label={showSanitized ? "Sanitized console text preview" : "Original console text"}
               readOnly={showSanitized}
@@ -612,7 +613,7 @@ function HarSection() {
               <summary className="cursor-pointer px-3 py-2 text-xs font-semibold text-ink-700">
                 Request list ({har.summary.entries.length})
               </summary>
-              <div className="max-h-56 overflow-auto border-t border-ink-100">
+              <div tabIndex={0} aria-label="Request list, scrollable" className="max-h-56 overflow-auto border-t border-ink-100">
                 <table className="w-full text-left text-xs">
                   <thead className="sticky top-0 bg-ink-50 text-ink-600">
                     <tr>
@@ -682,7 +683,7 @@ function HarSection() {
                   </Button>
                 </div>
                 {showSanitizedCopy && har.sanitizedHarJson ? (
-                  <pre className="max-h-64 overflow-auto rounded-lg border border-ink-200 bg-white px-3 py-2 font-mono text-[11px] leading-relaxed">
+                  <pre tabIndex={0} aria-label="Sanitized HAR copy, scrollable" className="max-h-64 overflow-auto rounded-lg border border-ink-200 bg-white px-3 py-2 font-mono text-[11px] leading-relaxed">
                     {har.sanitizedHarJson.slice(0, 40_000)}
                     {har.sanitizedHarJson.length > 40_000 ? "\n… (preview truncated; the export contains the full sanitized copy)" : ""}
                   </pre>

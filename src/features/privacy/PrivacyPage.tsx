@@ -123,7 +123,7 @@ function PrivacyPageInner() {
 
       <Card className="mb-5">
         <CardHeader title="Where your data lives" description="Precise, per-item storage map." />
-        <CardBody className="overflow-x-auto">
+        <CardBody className="overflow-x-auto" tabIndex={0} aria-label="Data table, scrollable horizontally">
           <table className="w-full text-left text-xs">
             <thead className="text-ink-500">
               <tr>

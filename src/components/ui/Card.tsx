@@ -45,9 +45,14 @@ export function CardHeader({
 export function CardBody({
   children,
   className,
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
-}) {
-  return <div className={cn("px-5 py-4", className)}>{children}</div>;
+} & React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("px-5 py-4", className)} {...rest}>
+      {children}
+    </div>
+  );
 }

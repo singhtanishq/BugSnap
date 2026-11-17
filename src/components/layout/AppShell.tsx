@@ -125,7 +125,7 @@ export function AppShell({
         </Link>
         {navList}
         <div className="mt-auto">{progressPanel}</div>
-        <p className="text-center text-[10px] leading-relaxed text-ink-300">
+        <p className="text-center text-[10px] leading-relaxed text-ink-500">
           Local-first · No uploads
         </p>
       </aside>

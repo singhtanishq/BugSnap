@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
 /**
  * Draft lifecycle in a real browser with real IndexedDB:
@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
  * Includes the persistence-opt-out check (Milestone 08 acceptance).
  */
 
-async function enableDrafts(page: import("@playwright/test").Page) {
+async function enableDrafts(page: Page) {
   await page.getByRole("link", { name: "Privacy" }).first().click();
   await page.getByRole("button", { name: "Enable local draft saving" }).click();
   const dialog = page.getByRole("dialog", { name: /Enable local draft saving/ });
