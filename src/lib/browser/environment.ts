@@ -20,7 +20,7 @@ interface NavigatorUAData {
   platform?: string;
 }
 
-function parseUserAgent(ua: string): UaData {
+export function parseUserAgent(ua: string): UaData {
   // Order matters: Edges and OPers report Chrome engines too.
   const rules: Array<[RegExp, string]> = [
     [/Edg\/([\d.]+)/, "Microsoft Edge"],
