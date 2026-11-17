@@ -11,6 +11,7 @@ import type { Finding } from "@/types/redaction";
 import type { HarSummary } from "@/types/diagnostics";
 import { localId, nowIso } from "@/lib/utils";
 import { createEmptyReport, renumberSteps } from "@/lib/report/reportFactory";
+import { scanLogText } from "@/lib/redaction/patterns";
 import {
   generateSampleScreenshot,
   SAMPLE_IMAGE_HEIGHT,
@@ -187,32 +188,14 @@ export function buildSampleHarSummary(): HarSummary {
 }
 
 export function buildSampleConsoleFindings(): Finding[] {
-  const mk = (
-    line: number,
-    column: number,
-    length: number,
-    matchText: string,
-    category: Finding["category"],
-    severity: Finding["severity"],
-  ): Finding => ({
-    id: localId("finding"),
-    category,
-    severity,
-    confidence: "high",
-    location: { line, column, length },
-    maskedPreview: maskValue(matchText),
-    replacement: "[REDACTED]",
-    ruleSource: "builtin",
-    status: "pending",
-    matchText,
-  });
-
-  return [
-    mk(3, 36, 26, "riley@aurora-notes.test", "email", "medium"),
-    mk(6, 22, 31, "demo_test_token_NOT_REAL_123456", "bearer", "high"),
-    mk(10, 74, 31, "demo_test_token_NOT_REAL_123456", "url-query-secret", "high"),
-    mk(11, 17, 27, "ak_live_demoNOTAREALKEY000000", "api-key", "high"),
-  ];
+  // Derive sample findings from the real detection engine so locations and
+  // match lengths are always consistent with the sample log text.
+  const { findings } = scanLogText(SAMPLE_CONSOLE_LOG);
+  // Prefer the synthetic token finding order: email, bearer, query, api key.
+  const order = ["email", "bearer", "url-query-secret", "api-key"];
+  return [...findings].sort(
+    (a, b) => order.indexOf(a.category) - order.indexOf(b.category) || a.location.line - b.location.line,
+  );
 }
 
 export function maskValue(value: string): string {

@@ -6,7 +6,8 @@ import { Card, CardBody } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { useReport } from "@/app/providers/ReportProvider";
 import { useToast } from "@/components/feedback/Toast";
-import { buildSampleReport } from "@/lib/demo/sampleData";
+import { buildSampleReport, buildSampleHarJson } from "@/lib/demo/sampleData";
+import { setRawHar } from "@/lib/files/harRawStore";
 import { ErrorBoundary } from "@/components/feedback/ErrorBoundary";
 import { computeCompleteness } from "@/lib/report/completeness";
 
@@ -35,6 +36,11 @@ export function OverviewPage() {
       const sample = await buildSampleReport();
       const blobs = new Map([[sample.evidenceId, sample.imageBlob]]);
       loadSample(sample.report, blobs);
+      // Register the synthetic raw HAR in the memory-only store so the
+      // sanitized-copy flow works on the sample exactly like a real import.
+      if (sample.report.har) {
+        setRawHar(sample.report.har.id, buildSampleHarJson());
+      }
       showToast("Synthetic sample report loaded — all data is fictional", "success");
     } catch {
       showToast("Could not generate the sample report in this browser", "error");
