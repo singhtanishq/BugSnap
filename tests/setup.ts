@@ -1,6 +1,12 @@
 import "@testing-library/jest-dom/vitest";
 
-// jsdom lacks a few browser APIs the app touches at import/mount time.
+// jsdom gaps: object URL management, matchMedia, ResizeObserver.
+if (typeof URL.createObjectURL !== "function") {
+  let counter = 0;
+  URL.createObjectURL = (() => `blob:mock-${(counter += 1)}`) as typeof URL.createObjectURL;
+  URL.revokeObjectURL = (() => {}) as typeof URL.revokeObjectURL;
+}
+
 if (typeof window !== "undefined") {
   if (!window.matchMedia) {
     Object.defineProperty(window, "matchMedia", {
