@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom/vitest";
+import "fake-indexeddb/auto";
 
 // jsdom gaps: object URL management, matchMedia, ResizeObserver.
 if (typeof URL.createObjectURL !== "function") {

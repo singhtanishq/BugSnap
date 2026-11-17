@@ -14,3 +14,16 @@ export async function readFileAsText(file: Blob): Promise<string> {
     reader.readAsText(file);
   });
 }
+
+/** Read a Blob's bytes as Uint8Array with a FileReader fallback. */
+export async function readBlobAsBytes(blob: Blob): Promise<Uint8Array> {
+  if (typeof blob.arrayBuffer === "function") {
+    return new Uint8Array(await blob.arrayBuffer());
+  }
+  return await new Promise<Uint8Array>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(new Uint8Array(reader.result as ArrayBuffer));
+    reader.onerror = () => reject(new Error("The file could not be read."));
+    reader.readAsArrayBuffer(blob);
+  });
+}

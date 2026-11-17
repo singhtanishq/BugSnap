@@ -2,14 +2,16 @@ import { useState } from "react";
 import { Link } from "@/app/router";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/Button";
-import { Card, CardBody } from "@/components/ui/Card";
+import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { useReport } from "@/app/providers/ReportProvider";
 import { useToast } from "@/components/feedback/Toast";
 import { buildSampleReport, buildSampleHarJson } from "@/lib/demo/sampleData";
 import { setRawHar } from "@/lib/files/harRawStore";
+import { useDrafts } from "@/features/local-drafts/useDrafts";
 import { ErrorBoundary } from "@/components/feedback/ErrorBoundary";
 import { computeCompleteness } from "@/lib/report/completeness";
+import { formatTimestamp } from "@/lib/utils";
 
 const WORKFLOW: Array<{ title: string; detail: string }> = [
   { title: "1 · Describe & classify", detail: "Title, description, type, severity, priority." },
@@ -24,6 +26,7 @@ export function OverviewPage() {
   const { report, loadSample, resetReport } = useReport();
   const { showToast } = useToast();
   const [loadingSample, setLoadingSample] = useState(false);
+  const draftApi = useDrafts();
   const completeness = computeCompleteness(report);
   const hasContent =
     report.title.trim().length > 0 ||
@@ -123,6 +126,55 @@ export function OverviewPage() {
           ))}
         </div>
       </section>
+
+      {draftApi.enabled && draftApi.drafts.length > 0 ? (
+        <section className="mb-8">
+          <Card>
+            <CardHeader
+              title="Recent local drafts"
+              description="Stored in this browser's IndexedDB because you enabled draft saving. Not encrypted."
+              actions={
+                <Link to="/privacy">
+                  <Button size="sm">Manage drafts</Button>
+                </Link>
+              }
+            />
+            <CardBody>
+              <ul className="grid gap-2">
+                {draftApi.drafts.slice(0, 5).map((draft) => (
+                  <li
+                    key={draft.id}
+                    className="flex flex-wrap items-center gap-3 rounded-lg border border-ink-100 px-3 py-2"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-ink-800">{draft.title}</p>
+                      <p className="text-[11px] text-ink-400">
+                        Saved {formatTimestamp(draft.savedAt)} · {draft.evidenceCount} evidence
+                        item(s)
+                      </p>
+                    </div>
+                    <Button
+                      size="sm"
+                      onClick={async () => {
+                        const loaded = await draftApi.restore(draft.id);
+                        if (loaded) {
+                          loadSample(loaded.report, loaded.blobs);
+                          showToast(`Draft restored — "${draft.title}"`, "success");
+                        } else {
+                          showToast("Draft could not be read", "error");
+                        }
+                      }}
+                      aria-label={`Restore draft ${draft.title}`}
+                    >
+                      Restore
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </CardBody>
+          </Card>
+        </section>
+      ) : null}
 
       <section>
         <Card>
